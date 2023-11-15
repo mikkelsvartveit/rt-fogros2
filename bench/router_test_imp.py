@@ -184,14 +184,16 @@ class Router:
             "content" : content  
         }
         for direct_member in direct_members:
-            messages.append((direct_member.address, curr_msg))
+            if direct_member.gdp_name != source_gdp_name:
+                messages.append((direct_member.address, curr_msg))
         
         #send to parent and confirmed children
-        if self.parent_confirmed:
+        if self.parent_confirmed and self.parent.gdp_name != source_gdp_name:
             messages.append((self.parent_router.address, curr_msg))
         
         for conf_child in self.rib.confirmed_links.get(mg_gdp_name, set()):
-            messages.append((conf_child.address, curr_msg))
+            if conf_child.gdp_name != source_gdp_name:
+                messages.append((conf_child.address, curr_msg))
         
         return messages       
     
