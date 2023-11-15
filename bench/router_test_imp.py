@@ -104,7 +104,7 @@ class Router:
         mg_gdp_name = msg.payload["mg_gdp_name"]
         direction = msg.payload["direction"]
         
-        if child_gdp_name in self.rib.children: #if from a child        
+        if child_gdp_name in self.rib.children or child_gdp_name == self.parent_router.gdp_name: #if from a child or the parent        
             if direction == "up":
                 tentative_set, confirmed_set = self.rib.tentative_links[mg_gdp_name], self.rib.confirmed_links[mg_gdp_name]
                 size_before = len(tentative_set) + len(confirmed_set)
